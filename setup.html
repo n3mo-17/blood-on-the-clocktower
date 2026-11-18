@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Choose which Blood on the Clocktower characters are in play for your table based on the player distribution." />
+  <meta name="theme-color" content="#09090b" />
+  <title>Choose Characters — Blood on the Clocktower Grimoire</title>
+
+  <!-- Inline Clocktower Favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='17' fill='%2313080b' stroke='%23a32436' stroke-width='1.6' opacity='0.9' /%3E%3Ccircle cx='20' cy='20' r='12.5' stroke='%23e8c5ca' stroke-width='1' stroke-dasharray='2.5 3.5' opacity='0.85' /%3E%3Cpath d='M20 9.5V20l7 4.5' stroke='%23a32436' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' /%3E%3Ccircle cx='20' cy='20' r='2.2' fill='%23e8c5ca' /%3E%3C/svg%3E" />
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet" />
+
+  <!-- Apply Saved Theme Before Paint -->
+  <script src="./js/theme.js"></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./css/tokens.css" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+
+<body>
+  <div class="app-shell">
+    <!-- Sticky Atmospheric Header -->
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="./index.html" aria-label="Blood on the Clocktower Grimoire Home">
+          <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="1.6" opacity="0.9" />
+            <circle cx="20" cy="20" r="12.5" stroke="var(--gold-primary)" stroke-width="1" stroke-dasharray="2.5 3.5"
+              opacity="0.85" />
+            <path d="M20 9.5V20l7 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <circle cx="20" cy="20" r="2.2" fill="var(--gold-bright)" />
+          </svg>
+          <span class="brand-text">
+            <span class="brand-title">Clocktower Grimoire</span>
+            <span class="brand-subtitle">Storyteller Companion</span>
+          </span>
+        </a>
+
+        <div class="header-right">
+          <div id="session-pill" class="session-pill" hidden aria-live="polite">
+            <span class="session-pill-dot" aria-hidden="true"></span>
+            <span id="session-pill-text" class="session-pill-text"></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content setup-page-main">
+      <!-- Missing Session Warning (if opened directly without GM name) -->
+      <div id="missing-gm-banner" class="setup-alert-banner" role="status" hidden>
+        <span>No Storyteller nickname is set yet.</span>
+        <a href="./index.html" class="setup-alert-link">Set up table details →</a>
+      </div>
+
+      <!-- Page Header & Active Table Context -->
+      <section class="reference-hero setup-hero" aria-labelledby="setup-roles-heading">
+        <div>
+          <span class="eyebrow">Step 2 · Role Selection</span>
+          <h1 id="setup-roles-heading" class="reference-title setup-title">Choose Characters in Play</h1>
+          <div class="table-context-chips" aria-label="Current table configuration">
+            <span class="context-chip">
+              <span class="context-chip-label">GM</span>
+              <strong id="ctx-gm-name">Storyteller</strong>
+            </span>
+            <span class="context-chip">
+              <span class="context-chip-label">Script</span>
+              <strong id="ctx-script-name">Trouble Brewing</strong>
+            </span>
+            <span class="context-chip">
+              <span class="context-chip-label">Players</span>
+              <strong id="ctx-player-count">8 Players</strong>
+            </span>
+            <span id="ctx-teensy-chip" class="context-chip context-chip--gold" hidden>
+              <strong>Teensyville Rules</strong>
+            </span>
+          </div>
+        </div>
+
+        <a class="btn-ghost reference-back-link" href="./index.html">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M15.5 10h-11m4.5-4.5L4.5 10 9 14.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span>Edit Table</span>
+        </a>
+      </section>
+
+      <!-- Sticky Distribution Tracker & Quick Controls -->
+      <section class="roster-bar" aria-label="Character distribution tracker">
+        <div class="roster-bar-top">
+          <div class="quota-grid" aria-live="polite">
+            <div id="quota-townsfolk" class="quota-pill quota-pill--townsfolk">
+              <span class="quota-label">Townsfolk</span>
+              <span id="quota-townsfolk-val" class="quota-val">0 / 5</span>
+            </div>
+            <div id="quota-outsiders" class="quota-pill quota-pill--outsiders">
+              <span class="quota-label">Outsiders</span>
+              <span id="quota-outsiders-val" class="quota-val">0 / 1</span>
+            </div>
+            <div id="quota-minions" class="quota-pill quota-pill--minions">
+              <span class="quota-label">Minions</span>
+              <span id="quota-minions-val" class="quota-val">0 / 1</span>
+            </div>
+            <div id="quota-demon" class="quota-pill quota-pill--demon">
+              <span class="quota-label">Demon</span>
+              <span id="quota-demon-val" class="quota-val">0 / 1</span>
+            </div>
+          </div>
+
+          <div class="roster-actions">
+            <button id="randomize-roles-btn" type="button" class="btn-secondary">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M3.5 6.5h2.8l7.4 7h2.8m-2-2.2 2.2 2.2-2.2 2.2M3.5 13.5h2.8l2.2-2.1m3-2.8 2.2-2.1h2.8m-2-2.2 2.2 2.2-2.2 2.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span>Randomize</span>
+            </button>
+            <button id="clear-roles-btn" type="button" class="btn-ghost roster-clear-btn">
+              Clear
+            </button>
+            <button id="confirm-roles-btn" type="button" class="btn-primary roster-confirm-btn" disabled>
+              <span>Confirm Characters</span>
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M4.5 10h11m-4.5-4.5L15.5 10 11 14.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="roster-bar-meta">
+          <div id="modifier-badges" class="modifier-badges" hidden aria-live="polite"></div>
+          <p id="roster-status-hint" class="roster-status-hint" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <!-- Drunk Believed Townsfolk Picker (shown only when Drunk is selected) -->
+      <section id="drunk-role-panel" class="drunk-panel" hidden aria-labelledby="drunk-panel-heading">
+        <div class="drunk-panel-head">
+          <div>
+            <span class="drunk-panel-eyebrow">Drunk Setup Required</span>
+            <h2 id="drunk-panel-heading" class="drunk-panel-title">Choose the Drunk's Believed Townsfolk</h2>
+            <p class="drunk-panel-desc">
+              Pick one not-in-play Townsfolk token to place in the bag instead of the Drunk.
+            </p>
+          </div>
+          <button id="drunk-random-btn" type="button" class="btn-secondary drunk-random-btn">
+            Pick Random
+          </button>
+        </div>
+        <div id="drunk-role-options" class="drunk-options-grid" role="radiogroup" aria-labelledby="drunk-panel-heading">
+          <!-- Populated dynamically with not-in-play Townsfolk -->
+        </div>
+      </section>
+
+      <!-- Lunatic Believed Demon Picker (Bad Moon Rising — shown only when Lunatic is selected) -->
+      <section id="lunatic-role-panel" class="drunk-panel" hidden aria-labelledby="lunatic-panel-heading">
+        <div class="drunk-panel-head">
+          <div>
+            <span class="drunk-panel-eyebrow">Lunatic Setup Required</span>
+            <h2 id="lunatic-panel-heading" class="drunk-panel-title">Choose the Lunatic's Believed Demon</h2>
+            <p class="drunk-panel-desc">
+              Pick which Demon token to place in the bag for the Lunatic (can match the real Demon or be a different Demon).
+            </p>
+          </div>
+          <button id="lunatic-random-btn" type="button" class="btn-secondary drunk-random-btn">
+            Pick Random
+          </button>
+        </div>
+        <div id="lunatic-role-options" class="drunk-options-grid" role="radiogroup" aria-labelledby="lunatic-panel-heading">
+          <!-- Populated dynamically with Demons -->
+        </div>
+      </section>
+
+      <!-- Godfather Outsider Delta Toggle (Bad Moon Rising — shown only when Godfather is selected) -->
+      <section id="godfather-panel" class="drunk-panel" hidden aria-labelledby="godfather-panel-heading">
+        <div class="drunk-panel-head">
+          <div>
+            <span class="drunk-panel-eyebrow">Godfather Setup Modifier</span>
+            <h2 id="godfather-panel-heading" class="drunk-panel-title">Adjust Outsider Count</h2>
+            <p class="drunk-panel-desc">
+              Choose whether the Godfather adds 1 Outsider or removes 1 Outsider for this game.
+            </p>
+          </div>
+          <div class="godfather-toggle-group" role="group" aria-label="Godfather Outsider adjustment">
+            <button id="gf-minus-btn" type="button" class="drunk-option-chip">-1 Outsider</button>
+            <button id="gf-plus-btn" type="button" class="drunk-option-chip">+1 Outsider</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Character Picker Groups -->
+      <section id="role-picker-groups" class="characters-panel" aria-label="Available characters">
+        <!-- Populated dynamically by js/setup.js -->
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p>
+        Fan-made Storyteller companion for Blood on the Clocktower.
+      </p>
+    </footer>
+  </div>
+
+  <!-- Roster Confirmation Modal -->
+  <div id="roster-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="roster-modal-title"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog--wide">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">Role Bag Ready</span>
+          <h2 id="roster-modal-title" class="modal-title">Characters in Play</h2>
+        </div>
+        <button id="roster-modal-close" type="button" class="modal-close" aria-label="Close dialog">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+
+      <p id="roster-modal-meta" class="modal-note"></p>
+      <div id="roster-modal-groups" class="roster-summary-groups"></div>
+
+      <div class="modal-actions">
+        <button id="roster-modal-edit" type="button" class="btn-ghost">
+          <span>Adjust Characters</span>
+        </button>
+        <button id="roster-modal-proceed" type="button" class="btn-primary">
+          <span>Assign Players</span>
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4.5 10h11m-4.5-4.5L15.5 10 11 14.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script defer src="./js/scripts-data.js"></script>
+  <script defer src="./js/trouble-brewing-data.js"></script>
+  <script defer src="./js/bad-moon-rising-data.js"></script>
+  <script defer src="./js/sects-and-violets-data.js"></script>
+  <script defer src="./js/storage.js"></script>
+  <script defer src="./js/nav.js"></script>
+  <script defer src="./js/setup.js"></script>
+</body>
+
+</html>
+

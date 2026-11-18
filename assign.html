@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Enter each player's name and draw a secret random Blood on the Clocktower character from the bag." />
+  <meta name="theme-color" content="#09090b" />
+  <title>Assign Players — Blood on the Clocktower Grimoire</title>
+
+  <!-- Inline Clocktower Favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='17' fill='%2313080b' stroke='%23a32436' stroke-width='1.6' opacity='0.9' /%3E%3Ccircle cx='20' cy='20' r='12.5' stroke='%23e8c5ca' stroke-width='1' stroke-dasharray='2.5 3.5' opacity='0.85' /%3E%3Cpath d='M20 9.5V20l7 4.5' stroke='%23a32436' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' /%3E%3Ccircle cx='20' cy='20' r='2.2' fill='%23e8c5ca' /%3E%3C/svg%3E" />
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet" />
+
+  <!-- Apply Saved Theme Before Paint -->
+  <script src="./js/theme.js"></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./css/tokens.css" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+
+<body>
+  <div class="app-shell">
+    <!-- Minimal Spoiler-Safe Header -->
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="./index.html" aria-label="Blood on the Clocktower Grimoire Home">
+          <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="1.6" opacity="0.9" />
+            <circle cx="20" cy="20" r="12.5" stroke="var(--gold-primary)" stroke-width="1" stroke-dasharray="2.5 3.5"
+              opacity="0.85" />
+            <path d="M20 9.5V20l7 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <circle cx="20" cy="20" r="2.2" fill="var(--gold-bright)" />
+          </svg>
+          <span class="brand-text">
+            <span class="brand-title">Clocktower Grimoire</span>
+            <span class="brand-subtitle">Storyteller Companion</span>
+          </span>
+        </a>
+
+        <div class="header-right">
+          <div id="session-pill" class="session-pill" hidden aria-live="polite">
+            <span class="session-pill-dot" aria-hidden="true"></span>
+            <span id="session-pill-text" class="session-pill-text"></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content assign-main">
+      <!-- Missing Setup Fallback -->
+      <section id="assign-missing-view" class="assign-card assign-centered" hidden aria-live="polite">
+        <div class="coming-soon-icon" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 4" />
+            <path d="M20 13v8m0 5h.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+          </svg>
+        </div>
+        <h1 class="assign-title">Character Bag Not Ready</h1>
+        <p class="assign-subtitle">
+          Choose the full set of characters for your player count before assigning players.
+        </p>
+        <a href="./setup.html" class="btn-primary assign-cta-link">
+          <span>Choose Characters</span>
+        </a>
+      </section>
+
+      <!-- Active Pass-and-Play Draw Stage -->
+      <section id="assign-stage" class="assign-stage" hidden aria-label="Player character assignment">
+        <!-- Progress Header -->
+        <div class="assign-progress-card">
+          <div class="assign-progress-top">
+            <span id="assign-step-label" class="assign-step-label">Player 1 of 8</span>
+            <span id="assign-remaining-badge" class="assign-remaining-badge">8 characters left</span>
+          </div>
+          <div class="assign-progress-track" aria-hidden="true">
+            <div id="assign-progress-fill" class="assign-progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- VIEW 1: Enter Player Name & Draw Random Character -->
+        <section id="draw-entry-view" class="assign-card" aria-labelledby="entry-heading">
+          <div class="assign-card-head">
+            <span class="eyebrow">Step 3 · Draw from the Bag</span>
+            <h1 id="entry-heading" class="assign-title">Player 1</h1>
+            <p class="assign-subtitle">
+              The Storyteller enters the player's name, then hands the device over so the player can tap below to draw their secret character.
+            </p>
+          </div>
+
+          <form id="player-draw-form" class="setup-form" novalidate>
+            <div class="form-section">
+              <div class="field-header">
+                <label class="field-label" for="player-name-input">Player Name</label>
+                <span class="field-hint">Required</span>
+              </div>
+              <div class="input-wrapper">
+                <input
+                  id="player-name-input"
+                  name="playerName"
+                  type="text"
+                  class="text-input"
+                  placeholder="Enter player's name..."
+                  maxlength="36"
+                  autocomplete="off"
+                  required
+                  aria-describedby="player-name-error"
+                  aria-invalid="false"
+                />
+                <svg class="input-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M10 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="1.5" />
+                  <path d="M3.8 17c.9-3 3.2-4.6 6.2-4.6s5.3 1.6 6.2 4.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+              </div>
+              <p id="player-name-error" class="field-error" role="alert" hidden></p>
+            </div>
+
+            <div class="assign-draw-actions">
+              <button id="draw-btn" type="submit" class="btn-primary assign-draw-btn">
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M3.5 6.5h2.8l7.4 7h2.8m-2-2.2 2.2 2.2-2.2 2.2M3.5 13.5h2.8l2.2-2.1m3-2.8 2.2-2.1h2.8m-2-2.2 2.2 2.2-2.2 2.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span>Draw Random Character</span>
+              </button>
+            </div>
+          </form>
+
+          <div class="assign-entry-footer">
+            <a href="./setup.html" class="assign-subtle-link">← Change Characters</a>
+          </div>
+        </section>
+
+        <!-- VIEW 2: Secret Character Reveal (Player Eyes Only) -->
+        <section id="draw-reveal-view" class="assign-card reveal-card" hidden aria-live="polite" aria-labelledby="reveal-name">
+          <div class="reveal-top">
+            <span id="reveal-player-greeting" class="reveal-greeting">Alex, your character is</span>
+            <div class="reveal-badges">
+              <span id="reveal-team" class="reveal-team-pill">Good · Townsfolk</span>
+              <span id="reveal-timing" class="role-timing">First Night</span>
+            </div>
+          </div>
+
+          <h1 id="reveal-name" class="reveal-character-name">Washerwoman</h1>
+
+          <p class="reveal-privacy-note">
+            Remember your character, then tap the button below to hide it before handing the device back.
+          </p>
+
+          <button id="next-player-btn" type="button" class="btn-primary assign-next-btn">
+            <span id="next-player-btn-text">Next Player</span>
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M4.5 10h11m-4.5-4.5L15.5 10 11 14.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </section>
+
+        <!-- VIEW 3: No Characters Left (Only Now Allow Proceeding) -->
+        <section id="draw-empty-view" class="assign-card assign-centered" hidden aria-live="polite" aria-labelledby="empty-heading">
+          <div class="empty-bag-seal" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="1.6" />
+              <path d="M15.5 24.5 21.2 30.2 33 18.4" stroke="var(--status-success)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+
+          <span class="eyebrow">0 Characters Left</span>
+          <h1 id="empty-heading" class="assign-title">No Characters Left</h1>
+          <p id="empty-summary-text" class="assign-subtitle">
+            All players have drawn their secret character from the bag. Hand the device back to the Storyteller to continue.
+          </p>
+
+          <div class="assigned-roster-box">
+            <span class="assigned-roster-label">Seated Players (Roles Hidden)</span>
+            <ol id="assigned-players-list" class="assigned-players-list"></ol>
+          </div>
+
+          <div class="assign-finish-actions">
+            <button id="proceed-next-btn" type="button" class="btn-primary">
+              <span>Continue to Grimoire</span>
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M4.5 10h11m-4.5-4.5L15.5 10 11 14.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <div class="assign-secondary-row">
+              <button id="redraw-btn" type="button" class="btn-ghost">Redraw All</button>
+              <a href="./setup.html" class="btn-ghost assign-link-btn">Change Characters</a>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p>
+        Fan-made Storyteller companion for Blood on the Clocktower.
+      </p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script defer src="./js/scripts-data.js"></script>
+  <script defer src="./js/trouble-brewing-data.js"></script>
+  <script defer src="./js/bad-moon-rising-data.js"></script>
+  <script defer src="./js/sects-and-violets-data.js"></script>
+  <script defer src="./js/storage.js"></script>
+  <script defer src="./js/nav.js"></script>
+  <script defer src="./js/assign.js"></script>
+</body>
+
+</html>
+

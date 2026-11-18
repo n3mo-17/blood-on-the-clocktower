@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Interactive Blood on the Clocktower Storyteller Grimoire." />
+  <meta name="theme-color" content="#09090b" />
+  <title>Grimoire — Blood on the Clocktower</title>
+
+  <!-- Inline Clocktower Favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='17' fill='%2313080b' stroke='%23a32436' stroke-width='1.6' opacity='0.9' /%3E%3Ccircle cx='20' cy='20' r='12.5' stroke='%23e8c5ca' stroke-width='1' stroke-dasharray='2.5 3.5' opacity='0.85' /%3E%3Cpath d='M20 9.5V20l7 4.5' stroke='%23a32436' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' /%3E%3Ccircle cx='20' cy='20' r='2.2' fill='%23e8c5ca' /%3E%3C/svg%3E" />
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet" />
+
+  <!-- Apply Saved Theme Before Paint -->
+  <script src="./js/theme.js"></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./css/tokens.css" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+
+<body>
+  <div class="app-shell">
+    <!-- Sticky Header -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="1.6" opacity="0.9" />
+            <circle cx="20" cy="20" r="12.5" stroke="var(--gold-primary)" stroke-width="1" stroke-dasharray="2.5 3.5"
+              opacity="0.85" />
+            <path d="M20 9.5V20l7 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <circle cx="20" cy="20" r="2.2" fill="var(--gold-bright)" />
+          </svg>
+          <span class="brand-text">
+            <span class="brand-title">Clocktower Grimoire</span>
+            <span class="brand-subtitle">Storyteller View</span>
+          </span>
+        </div>
+
+        <div class="header-right">
+          <div id="header-phase-pill" class="phase-pill phase-pill--night" aria-live="polite">
+            <span id="header-phase-text">Night 1</span>
+          </div>
+
+          <button id="open-show-picker-btn" type="button" class="nav-action-btn nav-action-btn--gold">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <rect x="3" y="4" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.5" />
+              <circle cx="10" cy="10" r="2.2" stroke="currentColor" stroke-width="1.4" />
+            </svg>
+            <span>Show Roles</span>
+          </button>
+
+          <button id="end-game-btn" type="button" class="nav-action-btn nav-action-btn--danger">
+            <span>End Game</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content grimoire-main">
+      <!-- Missing Players Fallback -->
+      <section id="grimoire-missing-view" class="assign-card assign-centered" hidden aria-live="polite">
+        <div class="coming-soon-icon" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 4" />
+            <path d="M20 13v8m0 5h.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+          </svg>
+        </div>
+        <h1 class="assign-title">Grimoire Not Ready</h1>
+        <p class="assign-subtitle">
+          Assign all players their characters from the bag before opening the Grimoire.
+        </p>
+        <a href="./assign.html" class="btn-primary assign-cta-link">
+          <span>Go to Player Assignment</span>
+        </a>
+      </section>
+
+      <!-- Active Grimoire Workspace -->
+      <div id="grimoire-workspace" class="grimoire-workspace" hidden>
+        <!-- Top Meta Strip -->
+        <section class="grim-topbar" aria-label="Session overview">
+          <div class="grim-topbar-info">
+            <span id="grim-gm-label" class="context-chip"></span>
+            <span id="grim-script-label" class="context-chip"></span>
+            <span id="grim-teensy-chip" class="context-chip context-chip--gold"
+              hidden><strong>Teensyville</strong></span>
+          </div>
+
+          <div class="grim-topbar-controls">
+            <div class="view-tabs view-tabs--compact" role="tablist" aria-label="Grimoire layout">
+              <button id="grim-view-circle" type="button" class="view-tab is-active" role="tab" aria-selected="true">
+                Circle
+              </button>
+              <button id="grim-view-list" type="button" class="view-tab" role="tab" aria-selected="false">
+                List
+              </button>
+            </div>
+            <button id="grim-reset-game-btn" type="button" class="btn-ghost grim-reset-btn">
+              Restart Game
+            </button>
+          </div>
+        </section>
+
+        <!-- Main Two-Column Grid: Circle Board + Game Loop Guide -->
+        <div class="grimoire-layout">
+          <!-- Left: Circular Grimoire Board -->
+          <section class="grimoire-board-panel" aria-label="Town square seating circle">
+            <div class="board-hint-row">
+              <p class="board-hint">
+                Drag a player onto another to swap seats · Tap any player to update status
+              </p>
+              <div class="board-legend" aria-label="Marker legend">
+                <span class="legend-chip legend-chip--dead">Dead</span>
+                <span class="legend-chip legend-chip--vote">1 Vote</span>
+                <span class="legend-chip legend-chip--poison">Poisoned</span>
+                <span class="legend-chip legend-chip--drunk">Drunk</span>
+              </div>
+            </div>
+
+            <!-- Circular Town Square Stage -->
+            <div id="grimoire-circle-stage" class="grimoire-circle-stage">
+              <div class="clocktower-ring-bg" aria-hidden="true">
+                <svg viewBox="0 0 400 400" fill="none">
+                  <circle cx="200" cy="200" r="168" stroke="var(--gold-border)" stroke-width="1.2"
+                    stroke-dasharray="4 7" />
+                  <circle cx="200" cy="200" r="118" stroke="var(--crimson-glow)" stroke-width="1" />
+                </svg>
+              </div>
+
+              <!-- Central Phase & Day Hub -->
+              <div id="grimoire-hub" class="grimoire-hub grimoire-hub--night" aria-live="polite">
+                <span id="hub-phase-icon" class="hub-phase-icon" aria-hidden="true"></span>
+                <span id="hub-day-label" class="hub-day-label">Night 1</span>
+                <div class="hub-stats">
+                  <span id="hub-alive-stat">8 / 8 Alive</span>
+                  <span id="hub-votes-stat">4 to Execute</span>
+                </div>
+              </div>
+
+              <!-- Seat Tokens Rendered Dynamically -->
+              <div id="grimoire-seats-layer" class="grimoire-seats-layer"></div>
+            </div>
+
+            <!-- Alternative List View -->
+            <div id="grimoire-list-stage" class="grimoire-list-stage" hidden></div>
+
+            <!-- Demon Bluffs Reference & Selector (Hidden in Teensyville) -->
+            <div id="bluffs-bar-card" class="bluffs-card" aria-label="Demon bluffs">
+              <div class="bluffs-card-head">
+                <div class="bluffs-card-title-row">
+                  <h2 class="bluffs-card-title">Demon Bluffs</h2>
+                  <span id="bluffs-count-badge" class="bluffs-count-badge">0 / 3</span>
+                </div>
+                <div class="bluffs-card-actions">
+                  <button id="bluffs-toggle-btn" type="button" class="mini-action-btn">Choose Bluffs</button>
+                  <button id="bluffs-random-btn" type="button" class="mini-action-btn">Random</button>
+                  <button id="bluffs-clear-btn" type="button" class="mini-action-btn mini-action-btn--muted"
+                    hidden>Clear</button>
+                </div>
+              </div>
+
+              <div id="bluffs-selected-row" class="bluff-chips" aria-live="polite"></div>
+
+              <div id="bluffs-picker-panel" class="bluffs-picker-panel" hidden>
+                <p class="bluffs-picker-hint">Select up to 3 not-in-play Good characters to show the Demon on Night 1.
+                </p>
+                <div id="bluffs-picker-grid" class="bluff-picker-grid"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Right: Guided Game Loop & Night Walkthrough -->
+          <aside class="grimoire-guide-panel" aria-label="Game loop and night guide">
+            <!-- Phase Header & Advance Controls -->
+            <div class="phase-header-card">
+              <div class="phase-header-top">
+                <div>
+                  <span id="guide-phase-eyebrow" class="eyebrow">Current Phase</span>
+                  <h1 id="guide-phase-title" class="phase-title">Night 1</h1>
+                </div>
+                <span id="guide-votes-badge" class="phase-votes-badge">8 Alive · 4 to Execute</span>
+              </div>
+
+              <div class="phase-switch-row">
+                <button id="prev-phase-btn" type="button" class="btn-ghost phase-step-btn">
+                  ← Prev Phase
+                </button>
+                <button id="next-phase-btn" type="button" class="btn-primary phase-advance-btn">
+                  <span id="next-phase-btn-text">Dawn · Start Day 1</span>
+                  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M4.5 10h11m-4.5-4.5L15.5 10 11 14.5" stroke="currentColor" stroke-width="1.8"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- NIGHT WALKTHROUGH PANEL -->
+            <div id="night-guide-view" class="guide-body">
+              <div class="night-step-card">
+                <div class="night-step-card-head">
+                  <span id="night-step-counter" class="night-step-counter">Step 1 of 6</span>
+                  <div id="night-step-flags" class="night-step-flags"></div>
+                </div>
+
+                <h2 id="night-step-title" class="night-step-title">Minion Info</h2>
+                <p id="night-step-player" class="night-step-player"></p>
+                <p id="night-step-instruction" class="night-step-instruction"></p>
+
+                <!-- Dynamic Quick Action Widget per Night Step -->
+                <div id="night-step-action-box" class="night-step-action-box" hidden></div>
+
+                <div class="night-step-nav">
+                  <button id="night-prev-btn" type="button" class="btn-ghost night-nav-btn">
+                    ← Previous
+                  </button>
+                  <button id="night-next-btn" type="button" class="btn-secondary night-nav-btn">
+                    <span id="night-next-btn-text">Next Step →</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Full Night Order Checklist -->
+              <div class="night-checklist-card">
+                <h3 class="night-checklist-title">Tonight's Wake Order</h3>
+                <ol id="night-checklist" class="night-checklist"></ol>
+              </div>
+            </div>
+
+            <!-- DAY PHASE PANEL -->
+            <div id="day-guide-view" class="guide-body" hidden>
+              <div class="day-card">
+                <h2 class="day-card-title">Dawn Report</h2>
+                <p id="day-dawn-report" class="day-card-text"></p>
+              </div>
+
+              <div class="day-card">
+                <h2 class="day-card-title">Town Square Voting</h2>
+                <div class="day-stats-grid">
+                  <div class="day-stat-box">
+                    <span id="day-alive-count" class="day-stat-num">8</span>
+                    <span class="day-stat-label">Alive</span>
+                  </div>
+                  <div class="day-stat-box">
+                    <span id="day-majority-count" class="day-stat-num">4</span>
+                    <span class="day-stat-label">To Execute</span>
+                  </div>
+                  <div class="day-stat-box">
+                    <span id="day-ghost-count" class="day-stat-num">0</span>
+                    <span class="day-stat-label">Ghost Votes</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="day-card">
+                <h2 class="day-card-title">Today's Execution</h2>
+                <p id="day-executed-status" class="day-card-text">No execution recorded today.</p>
+                <div class="day-exec-controls">
+                  <select id="day-exec-select" class="grim-select" aria-label="Select player executed today">
+                    <option value="">Select player to execute...</option>
+                  </select>
+                  <button id="day-exec-btn" type="button" class="btn-secondary">
+                    Execute
+                  </button>
+                </div>
+                <p id="day-exec-alert" class="inline-notice" hidden></p>
+              </div>
+
+              <div id="day-trackers-card" class="day-card" hidden>
+                <h2 id="day-trackers-title" class="day-card-title">Script Day Trackers</h2>
+                <div id="day-trackers-body" class="day-trackers-body"></div>
+              </div>
+
+              <div id="day-specials-card" class="day-card" hidden>
+                <h2 class="day-card-title">Active Day Abilities</h2>
+                <div id="day-specials-list" class="day-specials-list"></div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p>
+        Fan-made Storyteller companion for Blood on the Clocktower.
+      </p>
+    </footer>
+  </div>
+
+  <!-- Player Inspector & Status Modal -->
+  <div id="player-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="pm-player-name"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog--wide">
+      <div class="modal-header">
+        <div>
+          <span id="pm-seat-label" class="modal-eyebrow">Seat #1</span>
+          <h2 id="pm-player-name" class="modal-title">Player Name</h2>
+        </div>
+        <button id="pm-close-btn" type="button" class="modal-close" aria-label="Close player controls">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="pm-role-banner">
+        <div class="pm-role-head">
+          <strong id="pm-role-name" class="pm-role-name">Washerwoman</strong>
+          <span id="pm-team-pill" class="reveal-team-pill">Good · Townsfolk</span>
+        </div>
+        <p id="pm-drunk-callout" class="pm-drunk-callout" hidden></p>
+        <p id="pm-role-ability" class="pm-role-ability"></p>
+      </div>
+
+      <!-- Status Toggles -->
+      <div class="pm-toggles-grid">
+        <button id="pm-toggle-alive" type="button" class="pm-toggle-btn">
+          <span class="pm-toggle-title">Life Status</span>
+          <span id="pm-alive-state" class="pm-toggle-state">Alive</span>
+        </button>
+
+        <button id="pm-toggle-vote" type="button" class="pm-toggle-btn" hidden>
+          <span class="pm-toggle-title">Dead Ghost Vote</span>
+          <span id="pm-vote-state" class="pm-toggle-state">1 Vote Left</span>
+        </button>
+
+        <button id="pm-toggle-poison" type="button" class="pm-toggle-btn">
+          <span class="pm-toggle-title">Poisoned</span>
+          <span id="pm-poison-state" class="pm-toggle-state">Healthy</span>
+        </button>
+
+        <button id="pm-toggle-drunk" type="button" class="pm-toggle-btn" hidden>
+          <span class="pm-toggle-title">Drunk Status</span>
+          <span id="pm-drunk-state" class="pm-toggle-state">Sober</span>
+        </button>
+
+        <button id="pm-toggle-monk" type="button" class="pm-toggle-btn">
+          <span id="pm-monk-title" class="pm-toggle-title">Monk Safe</span>
+          <span id="pm-monk-state" class="pm-toggle-state">Off</span>
+        </button>
+
+        <button id="pm-toggle-da" type="button" class="pm-toggle-btn" hidden>
+          <span class="pm-toggle-title">DA Exec-Safe</span>
+          <span id="pm-da-state" class="pm-toggle-state">Off</span>
+        </button>
+
+        <button id="pm-toggle-herring" type="button" class="pm-toggle-btn" hidden>
+          <span class="pm-toggle-title">Red Herring</span>
+          <span id="pm-herring-state" class="pm-toggle-state">Off</span>
+        </button>
+
+        <button id="pm-toggle-mad" type="button" class="pm-toggle-btn" hidden>
+          <span class="pm-toggle-title">Mad (Cerenovus)</span>
+          <span id="pm-mad-state" class="pm-toggle-state">Off</span>
+        </button>
+
+        <button id="pm-toggle-cursed" type="button" class="pm-toggle-btn" hidden>
+          <span class="pm-toggle-title">Witch Cursed</span>
+          <span id="pm-cursed-state" class="pm-toggle-state">Off</span>
+        </button>
+
+        <button id="pm-toggle-good-twin" type="button" class="pm-toggle-btn" hidden>
+          <span class="pm-toggle-title">Good Twin</span>
+          <span id="pm-good-twin-state" class="pm-toggle-state">Off</span>
+        </button>
+
+        <button id="pm-toggle-grandchild" type="button" class="pm-toggle-btn" hidden>
+          <span class="pm-toggle-title">Grandchild</span>
+          <span id="pm-grandchild-state" class="pm-toggle-state">Off</span>
+        </button>
+
+        <button id="pm-toggle-zombuul" type="button" class="pm-toggle-btn" hidden>
+          <span class="pm-toggle-title">Zombuul Fake-Dead</span>
+          <span id="pm-zombuul-state" class="pm-toggle-state">Off</span>
+        </button>
+
+        <button id="pm-toggle-woke" type="button" class="pm-toggle-btn" hidden>
+          <span class="pm-toggle-title">Woke Tonight</span>
+          <span id="pm-woke-state" class="pm-toggle-state">No</span>
+        </button>
+
+        <button id="pm-toggle-alignment" type="button" class="pm-toggle-btn" hidden>
+          <span class="pm-toggle-title">Alignment</span>
+          <span id="pm-alignment-state" class="pm-toggle-state">Default</span>
+        </button>
+
+        <button id="pm-toggle-died-tonight" type="button" class="pm-toggle-btn">
+          <span class="pm-toggle-title">Died Tonight</span>
+          <span id="pm-died-tonight-state" class="pm-toggle-state">No</span>
+        </button>
+
+        <button id="pm-toggle-executed" type="button" class="pm-toggle-btn">
+          <span class="pm-toggle-title">Executed Today</span>
+          <span id="pm-executed-state" class="pm-toggle-state">No</span>
+        </button>
+      </div>
+
+      <!-- Seat Swap & Role Change Controls -->
+      <div class="pm-advanced-grid">
+        <div class="pm-control-group">
+          <label class="field-label" for="pm-swap-select">Swap Seat With</label>
+          <div class="pm-inline-control">
+            <select id="pm-swap-select" class="grim-select"></select>
+            <button id="pm-swap-btn" type="button" class="btn-secondary pm-small-btn">Swap</button>
+          </div>
+        </div>
+
+        <div class="pm-control-group">
+          <label class="field-label" for="pm-role-select">Change Character (e.g. Imp Pass)</label>
+          <div class="pm-inline-control">
+            <select id="pm-role-select" class="grim-select"></select>
+            <button id="pm-role-btn" type="button" class="btn-secondary pm-small-btn">Update</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="pm-done-btn" type="button" class="btn-primary">
+          <span>Done</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Show Role(s) Picker Modal -->
+  <div id="show-picker-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="show-picker-title"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog--xl">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">Night Card Display</span>
+          <h2 id="show-picker-title" class="modal-title">Show Role(s) to Player</h2>
+        </div>
+        <button id="show-picker-close" type="button" class="modal-close" aria-label="Close role picker">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="show-picker-section">
+        <label class="field-label" for="show-banner-input">Banner Text (Optional)</label>
+        <div id="show-banner-presets" class="show-presets-row">
+          <button type="button" class="preset-chip is-active" data-banner="">None</button>
+          <button type="button" class="preset-chip" data-banner="These characters are not in play">Not in Play
+            (Bluffs)</button>
+          <button type="button" class="preset-chip" data-banner="This player is">This player is</button>
+          <button type="button" class="preset-chip" data-banner="You are">You are</button>
+          <button type="button" class="preset-chip" data-banner="One of these players is">1 of 2 Players Is</button>
+        </div>
+        <input id="show-banner-input" type="text" class="text-input show-banner-input"
+          placeholder="Optional heading shown above the role card(s)..." maxlength="70" />
+      </div>
+
+      <div class="show-picker-section">
+        <div class="show-picker-roles-head">
+          <span class="field-label">Select One or More Characters (<span id="show-selected-count">0</span>)</span>
+          <div class="bluffs-card-actions">
+            <button id="show-load-bluffs-btn" type="button" class="mini-action-btn">Load Demon Bluffs</button>
+            <button id="show-clear-roles-btn" type="button"
+              class="mini-action-btn mini-action-btn--muted">Clear</button>
+          </div>
+        </div>
+        <div id="show-picker-groups" class="show-picker-groups"></div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="show-picker-cancel" type="button" class="btn-ghost">Cancel</button>
+        <button id="show-launch-btn" type="button" class="btn-primary" disabled>
+          <span>Show Full-Screen</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Opaque Full-Screen Role Card Overlay (Hides Entire Grimoire) -->
+  <div id="show-card-overlay" class="show-overlay" role="dialog" aria-modal="true"
+    aria-label="Displayed character cards" hidden>
+    <div class="show-overlay-inner">
+      <p id="show-overlay-banner" class="show-overlay-banner" hidden></p>
+      <div id="show-overlay-cards" class="show-overlay-cards"></div>
+      <button id="show-overlay-close" type="button" class="btn-ghost show-overlay-close-btn">
+        Hide &amp; Return to Grimoire
+      </button>
+    </div>
+  </div>
+
+  <!-- End Game Modal -->
+  <div id="end-game-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="end-game-title"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog--wide">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">Conclude Session</span>
+          <h2 id="end-game-title" class="modal-title">End Game</h2>
+        </div>
+        <button id="end-game-close" type="button" class="modal-close" aria-label="Close end game dialog">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="end-winner-row" role="group" aria-label="Winning team">
+        <button id="end-win-good" type="button" class="winner-btn winner-btn--good">Good Wins</button>
+        <button id="end-win-evil" type="button" class="winner-btn winner-btn--evil">Evil Wins</button>
+      </div>
+
+      <div class="end-reveal-box">
+        <span class="assigned-roster-label">Final Grimoire Reveal</span>
+        <ol id="end-reveal-list" class="end-reveal-list"></ol>
+      </div>
+
+      <div class="modal-actions end-game-actions">
+        <button id="end-game-cancel" type="button" class="btn-ghost">Keep Playing</button>
+        <button id="end-game-again" type="button" class="btn-secondary">New Game (Pick Roles)</button>
+        <button id="end-game-home" type="button" class="btn-primary">
+          <span>Return Home</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script defer src="./js/scripts-data.js"></script>
+  <script defer src="./js/trouble-brewing-data.js"></script>
+  <script defer src="./js/bad-moon-rising-data.js"></script>
+  <script defer src="./js/sects-and-violets-data.js"></script>
+  <script defer src="./js/storage.js"></script>
+  <script defer src="./js/grimoire.js"></script>
+</body>
+
+</html>

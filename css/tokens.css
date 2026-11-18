@@ -1,0 +1,323 @@
+/* ==========================================================================
+   Blood on the Clocktower — Grimoire Design Tokens
+   Three Dark Themes:
+     1. Gothic   (default) — Matte obsidian & bone white with restrained crimson
+     2. Infernal           — Dark soot-blue & smoldering furnace-orange flame
+     3. Sanguine           — Deep oxblood, claret maroon, and dried crimson
+   ========================================================================== */
+
+:root,
+:root[data-theme='gothic'] {
+  /* Surfaces & Depths (Matte Ink & Charcoal) */
+  --bg-obsidian: #09090b;
+  --bg-velvet: #0f0f12;
+  --bg-end: #09090b;
+  --bg-card: #131317;
+  --bg-card-elevated: #1a1a20;
+  --bg-card-hover: #222229;
+  --bg-input: #0b0b0e;
+  --overlay-bg: #08080a;
+
+  /* RGB Surface Channels */
+  --surface-header-rgb: 13, 13, 16;
+  --surface-deep-rgb: 11, 11, 14;
+  --surface-card-rgb: 19, 19, 23;
+  --surface-elev-rgb: 26, 26, 32;
+  --ink-rgb: 239, 240, 242;
+
+  /* Quiet Ambient Vignette (Barely perceptible depth) */
+  --bg-glow-1: rgba(255, 255, 255, 0.025);
+  --bg-glow-2: rgba(168, 42, 56, 0.035);
+  --bg-glow-3: transparent;
+  --bg-glow-4: transparent;
+
+  /* Primary Accent (Restrained Wax-Seal Crimson) */
+  --crimson-deep: #4a1219;
+  --crimson-primary: #821d28;
+  --crimson-bright: #a82a38;
+  --accent-primary-light: #d98c94;
+  --accent-primary-rgb: 168, 42, 56;
+  --accent-deep-rgb: 130, 29, 40;
+  --crimson-glow: rgba(168, 42, 56, 0.22);
+  --crimson-soft: rgba(130, 29, 40, 0.16);
+
+  /* Secondary Accent (Pewter & Bone White) */
+  --gold-muted: #767a84;
+  --gold-primary: #b4b8c2;
+  --gold-bright: #eceef2;
+  --accent-secondary-rgb: 180, 184, 194;
+  --accent-secondary-bright-rgb: 236, 238, 242;
+  --gold-soft: rgba(236, 238, 242, 0.07);
+  --gold-border: rgba(236, 238, 242, 0.2);
+
+  /* Good & Evil Gameplay Accents (Subtle colour on monochrome) */
+  --good-primary: #4e7fb0;
+  --good-alt: #77a4cf;
+  --good-bright: #b4cfe8;
+  --good-rgb: 78, 127, 176;
+  --evil-primary: #b53240;
+  --evil-alt: #c75a66;
+  --evil-bright: #e39aa2;
+  --evil-rgb: 181, 50, 64;
+
+  /* Script-Specific Accents */
+  --accent-tb: #a82a38;
+  --accent-bmr: #b57c3c;
+  --accent-snv: #8462b8;
+
+  /* Typography Colors */
+  --text-parchment: #efefef;
+  --text-ivory: #cacdd4;
+  --text-muted: #8b8f9a;
+  --text-dim: #5e626d;
+
+  /* Semantic Status */
+  --status-success: #4ca674;
+  --status-success-bg: rgba(76, 166, 116, 0.14);
+  --status-error: #c74a56;
+  --status-error-bg: rgba(199, 74, 86, 0.14);
+
+  /* Borders */
+  --border-subtle: rgba(239, 240, 242, 0.1);
+  --border-medium: rgba(239, 240, 242, 0.18);
+  --border-gold: rgba(239, 240, 242, 0.26);
+
+  /* Grimoire Hub Phase Surfaces */
+  --night-hub-top: #18181e;
+  --night-hub-bot: #111115;
+  --day-hub-top: #26262e;
+  --day-hub-bot: #18181e;
+
+  /* Typography Families */
+  --font-display: 'Cinzel', Georgia, 'Times New Roman', serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Alegreya Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  /* Fluid Type Scale */
+  --text-xs: clamp(0.78rem, 0.75rem + 0.14vw, 0.85rem);
+  --text-sm: clamp(0.9rem, 0.87rem + 0.16vw, 0.98rem);
+  --text-base: clamp(1rem, 0.97rem + 0.18vw, 1.08rem);
+  --text-lg: clamp(1.14rem, 1.08rem + 0.28vw, 1.28rem);
+  --text-xl: clamp(1.32rem, 1.2rem + 0.5vw, 1.62rem);
+  --text-2xl: clamp(1.75rem, 1.4rem + 1.35vw, 2.5rem);
+  --text-hero: clamp(2.05rem, 1.55rem + 2.1vw, 3.25rem);
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Crisp Architectural Radii */
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 5px;
+  --radius-pill: 3px;
+
+  /* Grounded Editorial Shadows */
+  --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.42);
+  --shadow-crimson: 0 1px 4px rgba(0, 0, 0, 0.48);
+  --shadow-gold: 0 0 0 1px rgba(236, 238, 242, 0.24);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 140ms;
+  --duration-normal: 220ms;
+  --duration-slow: 360ms;
+
+  /* Layout */
+  --container-max: 1220px;
+}
+
+/* ==========================================================================
+   Theme 2: INFERNAL
+   Deep soot-cobalt flame base, smoldering furnace orange, warm ember ochre,
+   and smoky dusk highlights — dark and grounded, never neon.
+   ========================================================================== */
+
+:root[data-theme='infernal'] {
+  /* Surfaces & Depths (Dark Soot-Blue Hearth) */
+  --bg-obsidian: #070a10;
+  --bg-velvet: #0c121c;
+  --bg-end: #070a10;
+  --bg-card: #101722;
+  --bg-card-elevated: #16202f;
+  --bg-card-hover: #1d2a3d;
+  --bg-input: #090e16;
+  --overlay-bg: #06080d;
+
+  /* RGB Surface Channels */
+  --surface-header-rgb: 10, 15, 24;
+  --surface-deep-rgb: 9, 14, 22;
+  --surface-card-rgb: 16, 23, 34;
+  --surface-elev-rgb: 22, 32, 47;
+  --ink-rgb: 230, 237, 245;
+
+  /* Quiet Ambient Vignette */
+  --bg-glow-1: rgba(196, 87, 31, 0.055);
+  --bg-glow-2: rgba(76, 130, 176, 0.05);
+  --bg-glow-3: transparent;
+  --bg-glow-4: transparent;
+
+  /* Primary Accent (Smoldering Dark Flame Orange) */
+  --crimson-deep: #5c220a;
+  --crimson-primary: #993c14;
+  --crimson-bright: #c4571f;
+  --accent-primary-light: #dfa07a;
+  --accent-primary-rgb: 196, 87, 31;
+  --accent-deep-rgb: 153, 60, 20;
+  --crimson-glow: rgba(196, 87, 31, 0.24);
+  --crimson-soft: rgba(153, 60, 20, 0.18);
+
+  /* Secondary Accent (Deep Flame-Core Blue & Muted Ember Ochre) */
+  --gold-muted: #3d6282;
+  --gold-primary: #5284b0;
+  --gold-bright: #cfa86e;
+  --accent-secondary-rgb: 82, 132, 176;
+  --accent-secondary-bright-rgb: 207, 168, 110;
+  --gold-soft: rgba(82, 132, 176, 0.12);
+  --gold-border: rgba(82, 132, 176, 0.3);
+
+  /* Good & Evil Gameplay Accents */
+  --good-primary: #5284b0;
+  --good-alt: #7aa7cf;
+  --good-bright: #b4d1ea;
+  --good-rgb: 82, 132, 176;
+  --evil-primary: #c4571f;
+  --evil-alt: #d47442;
+  --evil-bright: #e5ab88;
+  --evil-rgb: 196, 87, 31;
+
+  /* Script-Specific Accents */
+  --accent-tb: #c4571f;
+  --accent-bmr: #c29348;
+  --accent-snv: #8063a8;
+
+  /* Typography Colors */
+  --text-parchment: #e8eef5;
+  --text-ivory: #becbd9;
+  --text-muted: #7f92a8;
+  --text-dim: #54667a;
+
+  /* Semantic Status */
+  --status-success: #4ba37e;
+  --status-success-bg: rgba(75, 163, 126, 0.14);
+  --status-error: #cc5a42;
+  --status-error-bg: rgba(204, 90, 66, 0.15);
+
+  /* Borders */
+  --border-subtle: rgba(155, 192, 224, 0.11);
+  --border-medium: rgba(155, 192, 224, 0.2);
+  --border-gold: rgba(196, 110, 56, 0.34);
+
+  /* Grimoire Hub Phase Surfaces */
+  --night-hub-top: #142236;
+  --night-hub-bot: #0d1624;
+  --day-hub-top: #381e12;
+  --day-hub-bot: #21120c;
+
+  /* Grounded Editorial Shadows */
+  --shadow-card: 0 2px 10px rgba(0, 4, 12, 0.48);
+  --shadow-crimson: 0 1px 4px rgba(0, 4, 12, 0.52);
+  --shadow-gold: 0 0 0 1px rgba(82, 132, 176, 0.32);
+}
+
+/* ==========================================================================
+   Theme 3: SANGUINE
+   Deep oxblood leather, claret maroon, dried blood-crimson, and warm bone —
+   dark and dignified, never bright scarlet.
+   ========================================================================== */
+
+:root[data-theme='sanguine'] {
+  /* Surfaces & Depths (Dark Oxblood & Claret Maroon) */
+  --bg-obsidian: #0c0507;
+  --bg-velvet: #13080b;
+  --bg-end: #0c0507;
+  --bg-card: #190b0f;
+  --bg-card-elevated: #231015;
+  --bg-card-hover: #2d151c;
+  --bg-input: #100609;
+  --overlay-bg: #090305;
+
+  /* RGB Surface Channels */
+  --surface-header-rgb: 16, 6, 9;
+  --surface-deep-rgb: 16, 6, 9;
+  --surface-card-rgb: 25, 11, 15;
+  --surface-elev-rgb: 35, 16, 21;
+  --ink-rgb: 242, 228, 231;
+
+  /* Quiet Ambient Vignette */
+  --bg-glow-1: rgba(163, 36, 54, 0.06);
+  --bg-glow-2: rgba(110, 22, 36, 0.05);
+  --bg-glow-3: transparent;
+  --bg-glow-4: transparent;
+
+  /* Primary Accent (Deep Dried Crimson) */
+  --crimson-deep: #4d0e17;
+  --crimson-primary: #7d1a28;
+  --crimson-bright: #a32436;
+  --accent-primary-light: #d18690;
+  --accent-primary-rgb: 163, 36, 54;
+  --accent-deep-rgb: 125, 26, 40;
+  --crimson-glow: rgba(163, 36, 54, 0.26);
+  --crimson-soft: rgba(125, 26, 40, 0.2);
+
+  /* Secondary Accent (Aged Garnet & Warm Bone-Rose) */
+  --gold-muted: #8a4c56;
+  --gold-primary: #bd6e7b;
+  --gold-bright: #e8c5ca;
+  --accent-secondary-rgb: 189, 110, 123;
+  --accent-secondary-bright-rgb: 232, 197, 202;
+  --gold-soft: rgba(189, 110, 123, 0.14);
+  --gold-border: rgba(189, 110, 123, 0.34);
+
+  /* Good & Evil Gameplay Accents */
+  --good-primary: #6385a8;
+  --good-alt: #87a8c9;
+  --good-bright: #bfd4e8;
+  --good-rgb: 99, 133, 168;
+  --evil-primary: #b02a3c;
+  --evil-alt: #c25260;
+  --evil-bright: #dfa0a8;
+  --evil-rgb: 176, 42, 60;
+
+  /* Script-Specific Accents */
+  --accent-tb: #a32436;
+  --accent-bmr: #b35c42;
+  --accent-snv: #8f4668;
+
+  /* Typography Colors */
+  --text-parchment: #f8f1f2;
+  --text-ivory: #e2d0d4;
+  --text-muted: #b8969d;
+  --text-dim: #8a6870;
+
+  /* Semantic Status */
+  --status-success: #50a376;
+  --status-success-bg: rgba(80, 163, 118, 0.14);
+  --status-error: #c74454;
+  --status-error-bg: rgba(199, 68, 84, 0.16);
+
+  /* Borders */
+  --border-subtle: rgba(235, 185, 195, 0.11);
+  --border-medium: rgba(235, 185, 195, 0.2);
+  --border-gold: rgba(158, 80, 93, 0.36);
+
+  /* Grimoire Hub Phase Surfaces */
+  --night-hub-top: #2b0f17;
+  --night-hub-bot: #19090e;
+  --day-hub-top: #42141e;
+  --day-hub-bot: #240b11;
+
+  /* Grounded Editorial Shadows */
+  --shadow-card: 0 2px 10px rgba(8, 0, 2, 0.5);
+  --shadow-crimson: 0 1px 4px rgba(8, 0, 2, 0.54);
+  --shadow-gold: 0 0 0 1px rgba(158, 80, 93, 0.36);
+}

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Blood on the Clocktower Storyteller companion & digital Grimoire." />
+  <meta name="theme-color" content="#09090b" />
+  <title>Blood on the Clocktower — Storyteller Grimoire</title>
+
+  <!-- Inline Clocktower Favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='17' fill='%2313080b' stroke='%23a32436' stroke-width='1.6' opacity='0.9' /%3E%3Ccircle cx='20' cy='20' r='12.5' stroke='%23e8c5ca' stroke-width='1' stroke-dasharray='2.5 3.5' opacity='0.85' /%3E%3Cpath d='M20 9.5V20l7 4.5' stroke='%23a32436' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' /%3E%3Ccircle cx='20' cy='20' r='2.2' fill='%23e8c5ca' /%3E%3C/svg%3E" />
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet" />
+
+  <!-- Apply Saved Theme Before Paint -->
+  <script src="./js/theme.js"></script>
+
+  <!-- Stylesheets (Relative paths for GitHub Pages) -->
+  <link rel="stylesheet" href="./css/tokens.css" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+
+<body>
+  <div class="app-shell">
+    <!-- Sticky Atmospheric Header -->
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="./index.html" aria-label="Blood on the Clocktower Grimoire Home">
+          <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="1.6" opacity="0.9" />
+            <circle cx="20" cy="20" r="12.5" stroke="var(--gold-primary)" stroke-width="1" stroke-dasharray="2.5 3.5"
+              opacity="0.85" />
+            <path d="M20 9.5V20l7 4.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <circle cx="20" cy="20" r="2.2" fill="var(--gold-bright)" />
+          </svg>
+          <span class="brand-text">
+            <span class="brand-title">Clocktower Grimoire</span>
+            <span class="brand-subtitle">Storyteller Companion</span>
+          </span>
+        </a>
+
+        <div class="header-right">
+          <div id="session-pill" class="session-pill" hidden aria-live="polite">
+            <span class="session-pill-dot" aria-hidden="true"></span>
+            <span id="session-pill-text" class="session-pill-text"></span>
+          </div>
+
+          <nav class="header-nav" aria-label="Primary navigation">
+            <a class="nav-link nav-link--desktop is-active" href="./index.html" aria-current="page">Home</a>
+            <a class="nav-link nav-link--reference" href="./reference.html">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path
+                  d="M4 4.8A1.8 1.8 0 0 1 5.8 3h8.4A1.8 1.8 0 0 1 16 4.8v10.4a1.8 1.8 0 0 1-1.8 1.8H5.8A1.8 1.8 0 0 1 4 15.2V4.8Z"
+                  stroke="currentColor" stroke-width="1.5" />
+                <path d="M7.2 7h5.6M7.2 10h5.6M7.2 13h3.6" stroke="currentColor" stroke-width="1.4"
+                  stroke-linecap="round" />
+              </svg>
+              <span>Reference</span>
+            </a>
+          </nav>
+
+          <button id="nav-menu-btn" type="button" class="nav-menu-btn" aria-label="Toggle navigation menu"
+            aria-expanded="false" aria-controls="mobile-nav-drawer">
+            <span class="hamburger-lines" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Collapsible Navigation Drawer -->
+      <nav id="mobile-nav-drawer" class="mobile-nav-drawer" aria-label="Navigation menu" hidden>
+        <div class="mobile-nav-inner">
+          <div id="drawer-session" class="drawer-session" hidden>
+            <span class="session-pill-dot" aria-hidden="true"></span>
+            <span id="drawer-session-text"></span>
+          </div>
+          <a class="mobile-nav-link is-active" href="./index.html" aria-current="page">
+            <span>Home</span>
+            <span class="mobile-nav-hint">Let&#39;s begin the game!</span>
+          </a>
+          <a class="mobile-nav-link" href="./reference.html">
+            <span>Reference</span>
+            <span class="mobile-nav-hint">Town Composition, Roles &amp; Night Order</span>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <section class="landing-grid" aria-label="Game introduction and storyteller setup">
+        <!-- Left Column: Game Introduction -->
+        <div class="intro-panel">
+          <div class="crest-row">
+            <svg class="clocktower-crest" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+              <g class="outer-ring">
+                <circle cx="48" cy="48" r="44" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 6"
+                  opacity="0.65" />
+                <circle cx="48" cy="4" r="2" fill="var(--crimson-bright)" />
+                <circle cx="92" cy="48" r="2" fill="currentColor" />
+                <circle cx="48" cy="92" r="2" fill="var(--crimson-bright)" />
+                <circle cx="4" cy="48" r="2" fill="currentColor" />
+              </g>
+              <circle cx="48" cy="48" r="34" stroke="currentColor" stroke-width="1.6" opacity="0.85" />
+              <circle cx="48" cy="48" r="28" stroke="var(--crimson-bright)" stroke-width="1" opacity="0.55" />
+              <!-- Hour ticks -->
+              <path d="M48 16v5M48 75v5M16 48h5M75 48h5" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" />
+              <!-- Clock hands at nearly midnight -->
+              <path d="M48 25v23l13 8" stroke="var(--crimson-bright)" stroke-width="3" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <circle cx="48" cy="48" r="4" fill="var(--gold-bright)" />
+              <circle cx="48" cy="48" r="1.6" fill="var(--bg-obsidian)" />
+            </svg>
+            <div>
+              <span class="eyebrow">Ravenswood Bluff · Social Deduction</span>
+              <h1 class="hero-title">
+                Blood on the <span class="accent-crimson">Clocktower</span>
+              </h1>
+            </div>
+          </div>
+
+          <p class="hero-lead">
+            In the quiet mountain village of Ravenswood Bluff, a Demon walks among the townsfolk—striking by night and
+            hiding in plain sight by day.
+          </p>
+
+          <p class="hero-body">
+            Every player receives a unique secret character with a special ability—and even in death, ghosts retain a
+            final vote and remain part of the intrigue. The <strong>Storyteller (GM)</strong> guides the town
+            through night and day, tracks hidden truths in the Grimoire, and weaves a mystery no one will forget.
+          </p>
+
+          <div class="ornament-divider" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L14.6 9.4L22 12L14.6 14.6L12 22L9.4 14.6L2 12L9.4 9.4L12 2Z" stroke="currentColor"
+                stroke-width="1.5" />
+            </svg>
+          </div>
+
+          <div class="factions-grid" aria-label="Game Factions">
+            <article class="faction-card faction-card--good">
+              <span class="faction-label">Good · Townsfolk &amp; Outsiders</span>
+              <p class="faction-desc">
+                Share clues, sift through drunkenness and lies, and execute the Demon before the village falls.
+              </p>
+            </article>
+            <article class="faction-card faction-card--evil">
+              <span class="faction-label">Evil · Minions &amp; Demon</span>
+              <p class="faction-desc">
+                Sow doubt, poison crucial information, and eliminate the town until only two living souls remain.
+              </p>
+            </article>
+          </div>
+
+          <div class="quick-facts" aria-label="Quick game overview">
+            <span class="fact-chip">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="10" cy="7" r="3" stroke="currentColor" stroke-width="1.5" />
+                <path d="M4.5 16.5c.8-2.8 3-4.2 5.5-4.2s4.7 1.4 5.5 4.2" stroke="currentColor" stroke-width="1.5"
+                  stroke-linecap="round" />
+              </svg>
+              5–15 Players
+            </span>
+            <span class="fact-chip">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" />
+                <path d="M10 6v4.5l3 1.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+              45–90 min
+            </span>
+            <span class="fact-chip">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M4.5 4.5h11v11h-11z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                <path d="M10 4.5v11" stroke="currentColor" stroke-width="1.5" />
+              </svg>
+              1 Storyteller
+            </span>
+          </div>
+
+          <!-- Theme Switcher (Gothic, Infernal, Sanguine) -->
+          <div class="theme-switcher" aria-labelledby="theme-switcher-heading">
+            <div class="theme-switcher-header">
+              <span id="theme-switcher-heading" class="theme-switcher-label">
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path
+                    d="M10 2.5a7.5 7.5 0 1 0 7.2 9.6 2.1 2.1 0 0 0-2-2.6h-1.8a1.5 1.5 0 0 1-1.5-1.5V6.2a3.7 3.7 0 0 0-1.9-3.7Z"
+                    stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                  <circle cx="6.5" cy="9" r="1" fill="currentColor" />
+                  <circle cx="9.2" cy="6.2" r="1" fill="currentColor" />
+                  <circle cx="7.4" cy="12.8" r="1" fill="currentColor" />
+                </svg>
+                Grimoire Theme
+              </span>
+              <span class="theme-switcher-hint">Dark Palettes</span>
+            </div>
+            <div id="theme-switcher-grid" class="theme-switcher-grid" role="radiogroup"
+              aria-labelledby="theme-switcher-heading">
+              <!-- Populated dynamically from js/theme.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Storyteller Setup Card -->
+        <aside class="setup-card" aria-labelledby="setup-heading">
+          <div class="setup-card-header">
+            <div>
+              <h2 id="setup-heading" class="setup-title">Open the Grimoire</h2>
+              <p class="setup-subtitle">
+                Enter your Storyteller nickname and choose tonight's script.
+              </p>
+            </div>
+          </div>
+
+          <form id="storyteller-form" class="setup-form" novalidate>
+            <!-- GM Name Input -->
+            <div class="form-section">
+              <div class="field-header">
+                <label class="field-label" for="gm-name">GM Name (Nickname)</label>
+                <span class="field-hint">Required</span>
+              </div>
+              <div class="input-wrapper">
+                <input id="gm-name" name="gmName" type="text" class="text-input"
+                  placeholder="e.g. Raven, Alex, The Storyteller..." maxlength="40" autocomplete="nickname" required
+                  aria-describedby="gm-name-error" aria-invalid="false" />
+                <svg class="input-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M10 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="1.5" />
+                  <path d="M3.8 17c.9-3 3.2-4.6 6.2-4.6s5.3 1.6 6.2 4.6" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" />
+                </svg>
+              </div>
+              <p id="gm-name-error" class="field-error" role="alert" hidden></p>
+            </div>
+
+            <!-- Script Selector -->
+            <div class="form-section">
+              <div class="field-header">
+                <span id="script-label" class="field-label">Select Script</span>
+                <span class="field-hint">3 Official Editions</span>
+              </div>
+
+              <div id="script-grid" class="script-grid" role="radiogroup" aria-labelledby="script-label">
+                <!-- Populated dynamically from js/scripts-data.js -->
+              </div>
+            </div>
+
+            <!-- Number of Players Selector -->
+            <div class="form-section">
+              <div class="field-header">
+                <label class="field-label" for="player-count-range">Number of Players</label>
+                <span class="field-hint">Excluding Storyteller</span>
+              </div>
+
+              <div class="player-control-card">
+                <div class="player-stepper">
+                  <button id="player-dec-btn" type="button" class="stepper-btn" aria-label="Decrease number of players">
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M3.5 8h9" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" />
+                    </svg>
+                  </button>
+
+                  <div class="player-readout" aria-live="polite">
+                    <span id="player-count-value" class="player-count-number">8</span>
+                    <span class="player-count-label">Players</span>
+                  </div>
+
+                  <button id="player-inc-btn" type="button" class="stepper-btn" aria-label="Increase number of players">
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M8 3.5v9M3.5 8h9" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="player-slider-wrap">
+                  <input id="player-count-range" name="playerCount" type="range" class="player-range" min="5" max="15"
+                    step="1" value="8" aria-label="Number of players" />
+                  <div class="slider-bounds" aria-hidden="true">
+                    <span>5</span>
+                    <span>10</span>
+                    <span>15</span>
+                  </div>
+                </div>
+
+                <div class="distribution-grid" aria-label="Base character distribution" aria-live="polite">
+                  <div class="dist-chip dist-chip--good">
+                    <span id="dist-townsfolk" class="dist-num">5</span>
+                    <span class="dist-label">Townsfolk</span>
+                  </div>
+                  <div class="dist-chip dist-chip--good-alt">
+                    <span id="dist-outsiders" class="dist-num">1</span>
+                    <span class="dist-label">Outsiders</span>
+                  </div>
+                  <div class="dist-chip dist-chip--evil-alt">
+                    <span id="dist-minions" class="dist-num">1</span>
+                    <span class="dist-label">Minions</span>
+                  </div>
+                  <div class="dist-chip dist-chip--evil">
+                    <span id="dist-demon" class="dist-num">1</span>
+                    <span class="dist-label">Demon</span>
+                  </div>
+                </div>
+
+                <!-- Optional Teensyville Rules Toggle (5–6 Players Only, Off by Default) -->
+                <div id="teensy-toggle-row" class="teensy-row" hidden>
+                  <label class="teensy-label" for="teensy-toggle">
+                    <span class="teensy-info">
+                      <span class="teensy-title">Teensyville Rules</span>
+                      <span class="teensy-desc">Minion &amp; Demon don't learn each other; no Demon bluffs.</span>
+                    </span>
+                    <span class="toggle-switch">
+                      <input id="teensy-toggle" name="teensyville" type="checkbox" role="switch" class="toggle-input" />
+                      <span class="toggle-track" aria-hidden="true">
+                        <span class="toggle-thumb"></span>
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <button id="submit-btn" type="submit" class="btn-primary">
+                <span>Choose Characters</span>
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M4.5 10h11m-4.5-4.5L15.5 10 11 14.5" stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+              <button id="reset-btn" type="button" class="btn-ghost" hidden>
+                Reset
+              </button>
+            </div>
+          </form>
+        </aside>
+      </section>
+
+      <!-- Three-Pillar Overview of How the Game Plays -->
+      <section class="overview-section" aria-labelledby="overview-heading">
+        <div class="section-heading">
+          <h2 id="overview-heading" class="section-title">How the Night Unfolds</h2>
+          <p class="section-caption">A quick refresher before gathering the village circle</p>
+        </div>
+
+        <div class="pillars-grid">
+          <article class="pillar-card">
+            <div class="pillar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5Z" stroke="currentColor" stroke-width="1.6"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="pillar-title">1. Fall of Night</h3>
+            <p class="pillar-text">
+              Everyone closes their eyes. The Storyteller wakes roles in night order to gather information, weave
+              poison, or claim a victim for the Demon.
+            </p>
+          </article>
+
+          <article class="pillar-card">
+            <div class="pillar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6" />
+                <path
+                  d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8"
+                  stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h3 class="pillar-title">2. Dawn &amp; Whispers</h3>
+            <p class="pillar-text">
+              The town wakes to learn who died overnight. Players whisper in private, share claims publicly, and piece
+              together who can be trusted.
+            </p>
+          </article>
+
+          <article class="pillar-card">
+            <div class="pillar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 3v18M6 7h12M7.5 7 5 13h5L7.5 7Zm9 0L14 13h5l-2.5-6Z" stroke="currentColor"
+                  stroke-width="1.5" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="pillar-title">3. Nominations &amp; Execution</h3>
+            <p class="pillar-text">
+              The town nominates suspects and casts votes around the clocktower. Even dead players hold one ghost vote
+              to tip the final day.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p>
+        Fan-made Storyteller companion for Blood on the Clocktower.
+      </p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script defer src="./js/scripts-data.js"></script>
+  <script defer src="./js/storage.js"></script>
+  <script defer src="./js/nav.js"></script>
+  <script defer src="./js/landing.js"></script>
+</body>
+
+</html>
